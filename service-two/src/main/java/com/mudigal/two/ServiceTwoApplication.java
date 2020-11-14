@@ -1,13 +1,11 @@
 package com.mudigal.two;
 
-import com.mudigal.two.model.NameValueTO;
 import com.mudigal.two.service.NameValueService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
-import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @author Vijayendra Mudigal
@@ -17,17 +15,19 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 public class ServiceTwoApplication {
 
-  @Bean
-  CommandLineRunner generateNameValue(NameValueService nameValueService) {
+    public static void main(String[] args) {
+        SpringApplication.run(ServiceTwoApplication.class, args);
+    }
 
-    return args -> {
-      nameValueService.generateUUID();
-    };
+    @Bean
+    CommandLineRunner run(NameValueService nameValueService) {
+        return args -> {
+            generateNameValue(nameValueService);
+        };
+    }
 
-  }
-
-  public static void main(String[] args) {
-    SpringApplication.run(ServiceTwoApplication.class, args);
-  }
+    private void generateNameValue(NameValueService nameValueService) {
+        nameValueService.generateUUID();
+    }
 
 }

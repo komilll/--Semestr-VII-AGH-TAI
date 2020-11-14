@@ -23,7 +23,7 @@ public class CalorieValueController {
     // Catches REST API GET methods
     @GetMapping
     public String getRandomCalorieValue() {
-        logger.debug(CalorieValueController.class.toString() + " caught GET request.");
+        logger.debug(this.getClass() + " caught GET request.");
         return calorieValueService.getRandomCalorieData();
     }
 

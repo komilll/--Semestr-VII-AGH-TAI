@@ -12,8 +12,8 @@ import org.mapstruct.factory.Mappers;
 @Mapper(componentModel = "spring")
 public interface NameValueMapper {
 
-  NameValueMapper INSTANCE = Mappers.getMapper(NameValueMapper.class);
+    NameValueMapper INSTANCE = Mappers.getMapper(NameValueMapper.class);
 
-  NameValue getNameValue(NameValueTO nameValueTO);
+    NameValue getNameValue(NameValueTO nameValueTO);
 
 }
