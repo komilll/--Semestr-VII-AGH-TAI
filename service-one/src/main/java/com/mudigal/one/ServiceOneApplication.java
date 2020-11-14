@@ -1,5 +1,8 @@
 package com.mudigal.one;
 
+import com.mudigal.one.domain.NameValue;
+import com.mudigal.one.service.CalorieValueService;
+import com.mudigal.one.service.NameValueService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,33 +11,39 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import com.mudigal.one.domain.NameValue;
-import com.mudigal.one.service.NameValueService;
-
 /**
- * 
  * @author Vijayendra Mudigal
- *
  */
 
 @EnableScheduling
-@SpringBootApplication
+@SpringBootApplication // This application works with Spring Boot framework
 @EnableDiscoveryClient
 @EnableReactiveMongoRepositories
 public class ServiceOneApplication {
 
-	@Bean
-	CommandLineRunner generateNameValue(NameValueService nameValueService) {
+    public static void main(String[] args) {
+        SpringApplication.run(ServiceOneApplication.class, args);
+    }
 
-		return args -> {
-			NameValue nameValue = nameValueService.generateUUID();
-			nameValueService.updateNameValue(nameValue, false);
-		};
+    /**
+     * Runs automatically after application startup
+     */
+    @Bean
+    CommandLineRunner run(NameValueService nameValueService, CalorieValueService calorieValueService) {
+        return args -> {
+            handleNameValue(nameValueService);
+            handleCalorieValue(calorieValueService);
+        };
+    }
 
-	}
+    private void handleNameValue(NameValueService nameValueService) {
+        NameValue nameValue = nameValueService.generateUUID();
+        nameValueService.updateNameValue(nameValue, false);
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(ServiceOneApplication.class, args);
-	}
+    private void handleCalorieValue(CalorieValueService calorieCalculatorService) {
+        String randomCalorieData = calorieCalculatorService.getRandomCalorieData();
+        calorieCalculatorService.setCalorieData(randomCalorieData);
+    }
 
 }
