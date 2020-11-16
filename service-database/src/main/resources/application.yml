@@ -48,8 +48,8 @@ spring:
   jpa.database-platform: org.hibernate.dialect.H2Dialect
 logging:
   level:
-    org.springframework.web: WARN
-    com.mudigal.one: INFO
+    org.springframework.web: DEBUG
+    com.mudigal.two: DEBUG
 
 ---
 # DOCKER CONFIGURATION
@@ -93,6 +93,6 @@ logging:
   pattern:
     file: "%d %-5level [%thread] %logger{0}: %msg%n"
   level:
-    org.springframework.web: WARN
+    org.springframework.web: DEBUG
     com.mudigal.two: DEBUG
-    org.hibernate: WARN
+    org.hibernate: DEBUG
