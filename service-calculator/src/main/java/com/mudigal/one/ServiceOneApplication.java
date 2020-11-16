@@ -1,7 +1,7 @@
 package com.mudigal.one;
 
 import com.mudigal.one.domain.NameValue;
-import com.mudigal.one.service.CalorieValueService;
+import com.mudigal.one.service.CalorieService;
 import com.mudigal.one.service.NameValueService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -29,10 +29,10 @@ public class ServiceOneApplication {
      * Runs automatically after application startup
      */
     @Bean
-    CommandLineRunner run(NameValueService nameValueService, CalorieValueService calorieValueService) {
+    CommandLineRunner run(NameValueService nameValueService, CalorieService calorieService) {
         return args -> {
             handleNameValue(nameValueService);
-            handleCalorieValue(calorieValueService);
+            handleCalorieValue(calorieService);
         };
     }
 
@@ -41,7 +41,7 @@ public class ServiceOneApplication {
         nameValueService.updateNameValue(nameValue, false);
     }
 
-    private void handleCalorieValue(CalorieValueService calorieCalculatorService) {
+    private void handleCalorieValue(CalorieService calorieCalculatorService) {
         String randomCalorieData = calorieCalculatorService.getRandomCalorieData();
         calorieCalculatorService.setCalorieData(randomCalorieData);
     }

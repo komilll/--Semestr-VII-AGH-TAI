@@ -1,13 +1,13 @@
 package com.mudigal.two.service;
 
-import com.mudigal.two.domain.CalorieValue;
+import com.mudigal.two.domain.Meal;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface CalorieDatabaseService {
 
-    void addCalorieValue(CalorieValue calorieValue);
+    void addCalorieValue(Meal meal);
 
-    CalorieValue getCalorieValue(Long id);
+    Meal getCalorieValue(Long id);
 
 }

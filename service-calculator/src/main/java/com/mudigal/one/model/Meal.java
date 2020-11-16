@@ -9,8 +9,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data // Generates getters, setters, etc.
 @AllArgsConstructor
 @NoArgsConstructor
-public class CalorieValue {
+public class Meal {
 
-    private String value;
+    private Long id;
+
+    private Integer grams;
 
 }

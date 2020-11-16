@@ -14,13 +14,13 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "calorie_value")
-public class CalorieValue {
+public class Meal {
 
     @Id
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "value")
-    private Integer value;
+    @Column(name = "grams")
+    private Integer grams;
 
 }
