@@ -2,17 +2,14 @@ package com.mudigal.one.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
-public class Meal {
+public class MealCalculated {
 
     private Long id;
 
     private Integer grams;
 
+    private Double kcal;
 }

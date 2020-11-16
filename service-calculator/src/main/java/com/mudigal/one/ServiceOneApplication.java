@@ -16,7 +16,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  */
 
 @EnableScheduling
-@SpringBootApplication // This application works with Spring Boot framework
+@SpringBootApplication
 @EnableDiscoveryClient
 @EnableReactiveMongoRepositories
 public class ServiceOneApplication {
@@ -43,7 +43,6 @@ public class ServiceOneApplication {
 
     private void handleCalorieValue(CalorieService calorieCalculatorService) {
         String randomCalorieData = calorieCalculatorService.getRandomCalorieData();
-        calorieCalculatorService.setCalorieData(randomCalorieData);
     }
 
 }

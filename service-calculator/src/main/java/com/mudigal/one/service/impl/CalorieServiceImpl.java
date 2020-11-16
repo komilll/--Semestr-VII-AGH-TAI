@@ -1,18 +1,17 @@
 package com.mudigal.one.service.impl;
 
 import com.mudigal.one.model.Meal;
+import com.mudigal.one.model.MealCalculated;
+import com.mudigal.one.model.MealCaloricity;
 import com.mudigal.one.service.CalorieService;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
@@ -25,11 +24,32 @@ public class CalorieServiceImpl implements CalorieService {
         restTemplate = new RestTemplateBuilder().build();
     }
 
-    private static HttpHeaders prepareHttpHeaders() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        return headers;
+    @SneakyThrows
+    @Override
+    @Nullable
+    public MealCalculated calculateMeal(Meal meal) {
+        MealCalculated mealCalculated = null;
+        ResponseEntity<MealCaloricity> responseEntity = handleRequest(meal);
+
+        if (responseEntity.getStatusCode().is2xxSuccessful()) {
+            mealCalculated = handleSuccess(meal, responseEntity.getBody());
+        } else {
+            log.error("Add new meal failed for meal: " + meal + ", error: " + responseEntity.getStatusCodeValue());
+        }
+
+        return mealCalculated;
+    }
+
+    private static MealCalculated handleSuccess(Meal meal, MealCaloricity mealCaloricity) {
+        Double kcal = mealCaloricity.getCaloricity() * meal.getGrams();
+        MealCalculated mealCalculated = new MealCalculated(meal.getId(), meal.getGrams(), kcal);
+        log.info("Meal has been calculated: " + mealCalculated);
+        return mealCalculated;
+    }
+
+    private ResponseEntity<MealCaloricity> handleRequest(Meal meal) {
+        String url = "http://localhost:8084/" + meal.getId();
+        return restTemplate.getForEntity(url, MealCaloricity.class);
     }
 
     @Override
@@ -38,24 +58,5 @@ public class CalorieServiceImpl implements CalorieService {
         String generatedData = "RandomCalorieData: " + randomNumber;
         log.info("Generated Data: " + generatedData);
         return generatedData;
-    }
-
-    public void setCalorieData(String randomCalorieData) {
-
-    }
-
-    @SneakyThrows
-    @Override
-    public void addNewMeal(Meal meal) {
-        String url = "http://localhost:8084/";
-        HttpHeaders headers = prepareHttpHeaders();
-        HttpEntity<Meal> requestEntity = new HttpEntity<>(meal, headers);
-        ResponseEntity<Meal> responseEntity = restTemplate.postForEntity(url, requestEntity, Meal.class);
-
-        if (responseEntity.getStatusCode().is2xxSuccessful()) {
-            log.info("Add new meal succeeded: " + meal);
-        } else {
-            log.error("Add new meal failed");
-        }
     }
 }
