@@ -40,6 +40,18 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <!-- For REST API Controllers -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- For logging support -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
