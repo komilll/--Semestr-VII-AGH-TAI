@@ -1,8 +1,10 @@
 package pl.agh.servicecalculator.service;
 
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import pl.agh.servicecalculator.model.Meal;
@@ -19,26 +21,21 @@ public class CalculatorServiceImpl implements CalculatorService {
         restTemplate = new RestTemplateBuilder().build();
     }
 
-
+    @SneakyThrows
+    @Override
+    @Nullable
     public MealCalculated calculateMeal(Meal meal) {
-        return new MealCalculated(123L, 456, 789.100);
-    }
+        MealCalculated mealCalculated = null;
+        ResponseEntity<MealCaloricity> responseEntity = handleRequest(meal);
 
-//    @SneakyThrows
-//    @Override
-//    @Nullable
-//    public MealCalculated calculateMeal(Meal meal) {
-//        MealCalculated mealCalculated = null;
-//        ResponseEntity<MealCaloricity> responseEntity = handleRequest(meal);
-//
-//        if (responseEntity.getStatusCode().is2xxSuccessful()) {
-//            mealCalculated = handleSuccess(meal, responseEntity.getBody());
-//        } else {
-//            log.error("Add new meal failed for meal: " + meal + ", error: " + responseEntity.getStatusCodeValue());
-//        }
-//
-//        return mealCalculated;
-//    }
+        if (responseEntity.getStatusCode().is2xxSuccessful()) {
+            mealCalculated = handleSuccess(meal, responseEntity.getBody());
+        } else {
+            log.error("Add new meal failed for meal: " + meal + ", error: " + responseEntity.getStatusCodeValue());
+        }
+
+        return mealCalculated;
+    }
 
     private static MealCalculated handleSuccess(Meal meal, MealCaloricity mealCaloricity) {
         Double kcal = mealCaloricity.getCaloricity() * meal.getGrams();
