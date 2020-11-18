@@ -1,4 +1,23 @@
+zuul:
+  routes:
+    service-calculator:
+      url: http://localhost:8082
+    service-database:
+      url: http://localhost:8084
+
+
+ribbon:
+  eureka:
+    enabled: false
+
+
 logging:
   level:
     org.springframework.web: DEBUG
     pl.agh.servicecalculator: DEBUG
+
+spring:
+  application:
+    name: api-gateway
+  mvc:
+    log-request-details: true
