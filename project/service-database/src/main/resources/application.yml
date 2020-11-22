@@ -7,5 +7,7 @@ logging:
     pl.agh.servicecalculator: DEBUG
 
 spring:
+  application:
+    name: service-database
   mvc:
     log-request-details: true
