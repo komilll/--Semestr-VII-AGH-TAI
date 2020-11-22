@@ -1,4 +1,5 @@
 .idea/
+*.iml
 
 # Created by https://www.toptal.com/developers/gitignore/api/windows,linux,intellij,java,vscode,maven
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,linux,intellij,java,vscode,maven

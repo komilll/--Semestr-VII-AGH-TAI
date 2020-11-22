@@ -1,0 +1,11 @@
+server:
+  port: 8084
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+    pl.agh.servicecalculator: DEBUG
+
+spring:
+  mvc:
+    log-request-details: true
