@@ -1,0 +1,17 @@
+server:
+  port: 8086
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+    pl.agh.servicecalculator: DEBUG
+
+spring:
+  application:
+    name: service-history
+  data:
+    mongodb:
+      database: calorie-history
+      port: 27017
+  mvc:
+    log-request-details: true

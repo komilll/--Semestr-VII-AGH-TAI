@@ -4,6 +4,8 @@ zuul:
       url: http://localhost:8082
     service-database:
       url: http://localhost:8084
+    service-history:
+      url: http://localhost:8086
 
 
 ribbon:
