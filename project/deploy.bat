@@ -1,6 +1,4 @@
 call mvn package
 
 cd build\docker
-docker-compose up -d
-
-pause
+docker-compose up -d --build
