@@ -1,9 +1,9 @@
 zuul:
   routes:
     service-calculator:
-      url: http://localhost:8082
+      url: http://localhost:5555
     service-database:
-      url: http://localhost:8084
+      url: http://localhost:6666
 
 
 ribbon:

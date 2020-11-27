@@ -1,7 +1,7 @@
 # we will use openjdk 8 with alpine as it is a very small linux distro
 FROM openjdk:8-jre-alpine
 
-EXPOSE 8082
+EXPOSE 5555
 
 # copy the packaged jar file into our docker image
 ADD service-calculator-0.0.1-SNAPSHOT.jar app.jar
