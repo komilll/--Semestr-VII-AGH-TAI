@@ -1,11 +1,11 @@
 zuul:
   routes:
     service-calculator:
-      url: http://localhost:8082
+      url: http://service-calculator:5555
     service-database:
-      url: http://localhost:8084
+      url: http://service-database:6666
     service-history:
-      url: http://localhost:8086
+      url: http://service-history:7777
 
 
 ribbon:

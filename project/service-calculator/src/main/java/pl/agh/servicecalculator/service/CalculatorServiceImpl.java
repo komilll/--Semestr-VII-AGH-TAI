@@ -45,7 +45,7 @@ public class CalculatorServiceImpl implements CalculatorService {
     }
 
     private ResponseEntity<MealCaloricity> handleRequest(Meal meal) {
-        String url = "http://localhost:8084/" + meal.getId();
+        String url = "http://service-database:6666/" + meal.getId();
         return restTemplate.getForEntity(url, MealCaloricity.class);
     }
 
