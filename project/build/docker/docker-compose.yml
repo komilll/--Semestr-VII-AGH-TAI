@@ -7,6 +7,10 @@ services:
     build: ../../api-gateway/target
     ports:
       - "8080:8080"
+    expose:
+      - "8080"
+    networks:
+      - backend
 
   service-calculator:
     container_name: "service-calculator"
@@ -14,10 +18,12 @@ services:
     build: ../../service-calculator/target
     ports:
       - "5555:5555"
-    networks:
-      - backend
+    expose:
+      - "5555"
     depends_on:
       - api-gateway
+    networks:
+      - backend
 
   service-database:
     container_name: "service-database"
@@ -25,10 +31,12 @@ services:
     build: ../../service-database/target
     ports:
       - "6666:6666"
-    networks:
-      - backend
+    expose:
+      - "6666"
     depends_on:
       - api-gateway
+    networks:
+      - backend
 
 networks:
   backend:
