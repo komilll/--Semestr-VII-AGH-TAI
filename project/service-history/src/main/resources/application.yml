@@ -11,7 +11,11 @@ spring:
     name: service-history
   data:
     mongodb:
-      database: calorie-history
-      port: 27017
+      uri: mongodb://service-history-db:27017/service-history
+      database: service-history
   mvc:
     log-request-details: true
+
+dockerspring.data.mongodb:
+  uri: mongodb://service-history-db:27017/service-history
+
