@@ -1,0 +1,21 @@
+server:
+  port: 7777
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+    pl.agh.servicecalculator: DEBUG
+
+spring:
+  application:
+    name: service-history
+  data:
+    mongodb:
+      uri: mongodb://service-history-db:27017/service-history
+      database: service-history
+  mvc:
+    log-request-details: true
+
+dockerspring.data.mongodb:
+  uri: mongodb://service-history-db:27017/service-history
+

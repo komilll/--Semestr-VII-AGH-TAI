@@ -9,9 +9,10 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>api-gateway</module>
         <module>service-calculator</module>
         <module>service-database</module>
-        <module>api-gateway</module>
+        <module>service-history</module>
     </modules>
 
 </project>

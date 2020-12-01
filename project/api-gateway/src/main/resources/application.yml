@@ -1,9 +1,11 @@
 zuul:
   routes:
     service-calculator:
-      url: http://service-calculator:8082
+      url: http://service-calculator:5555
     service-database:
-      url: http://service-database:8084
+      url: http://service-database:6666
+    service-history:
+      url: http://service-history:7777
 
 
 ribbon:
