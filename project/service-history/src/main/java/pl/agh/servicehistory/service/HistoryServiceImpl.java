@@ -7,6 +7,8 @@ import pl.agh.servicehistory.model.CalorieHistory;
 import pl.agh.servicehistory.model.MealCalculated;
 import pl.agh.servicehistory.persistence.MealRepository;
 
+import java.util.List;
+
 @Service
 @Slf4j
 public class HistoryServiceImpl {
@@ -14,8 +16,15 @@ public class HistoryServiceImpl {
     @Autowired
     private MealRepository mealRepository;
 
-    public void saveMeal(MealCalculated mealCalculated) {
+    public CalorieHistory saveMeal(MealCalculated mealCalculated) {
+        log.info("Trying to save mealCalculated: " + mealCalculated);
         CalorieHistory calorieHistory = new CalorieHistory(mealCalculated);
-        mealRepository.save(calorieHistory);
+        log.info("Saved calorieHistory: " + calorieHistory);
+        return mealRepository.save(calorieHistory);
+    }
+
+    public List<CalorieHistory> getHistory() {
+        log.info("Trying to get all history");
+        return mealRepository.findAll();
     }
 }
