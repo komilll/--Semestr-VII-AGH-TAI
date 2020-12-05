@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import pl.agh.servicedatabase.model.AvailableMeals;
 import pl.agh.servicedatabase.model.MealCaloricity;
 import pl.agh.servicedatabase.service.MealCaloricityService;
 
@@ -15,7 +16,7 @@ public class DatabaseController {
     @Autowired
     private MealCaloricityService mealCaloricityService;
 
-    @GetMapping("/{id}")
+    @GetMapping("getMealCaloricity/{id}")
     public MealCaloricity getMealCaloricity(@PathVariable Long id) {
         log.info(getClass() + " caught /" + id + " GET request");
         MealCaloricity mealCaloricity = mealCaloricityService.getMealCaloricity(id);
@@ -23,4 +24,9 @@ public class DatabaseController {
         return mealCaloricity;
     }
 
+    @GetMapping("getAvailableMeals/")
+    public AvailableMeals getMealCaloricity() {
+        log.info(getClass() + " caught getAvailableMeals GET request");
+        return mealCaloricityService.getAvailableMeals();
+    }
 }
