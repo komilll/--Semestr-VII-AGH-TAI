@@ -64,9 +64,9 @@ services:
     volumes:
       - mongodata:/data/db
     ports:
-      - "27017:27017"
+      - "8888:8888"
     expose:
-      - "27017"
+      - "8888"
     command: mongod
     networks:
       - backend

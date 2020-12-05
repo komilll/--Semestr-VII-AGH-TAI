@@ -11,11 +11,11 @@ spring:
     name: service-history
   data:
     mongodb:
-      uri: mongodb://service-history-db:27017/service-history
+      uri: mongodb://service-history-db:8888/service-history
       database: service-history
   mvc:
     log-request-details: true
 
 dockerspring.data.mongodb:
-  uri: mongodb://service-history-db:27017/service-history
+  uri: mongodb://service-history-db:8888/service-history
 
