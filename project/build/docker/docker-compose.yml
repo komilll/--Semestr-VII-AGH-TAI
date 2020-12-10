@@ -72,7 +72,7 @@ services:
       - "8888:8888"
     expose:
       - "8888"
-    command: mongod
+    command: mongod --port 8888
     networks:
       - backend
 

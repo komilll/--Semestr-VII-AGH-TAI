@@ -1,17 +1,19 @@
 zuul:
+  ignoredServices: '*'
   routes:
     service-calculator:
-      url: http://service-calculator:5555
+      path: /service-calculator/**
+      serviceId: service-calculator
     service-database:
-      url: http://service-database:6666
+      path: /service-database/**
+      serviceId: service-database
     service-history:
-      url: http://service-history:7777
+      path: /service-history/**
+      serviceId: service-history
 
-
-ribbon:
-  eureka:
-    enabled: false
-
+server:
+  contextPath: /
+  port: 8080
 
 logging:
   level:
@@ -21,11 +23,24 @@ logging:
 spring:
   application:
     name: api-gateway
+    velocity.enabled: false
   cloud:
     consul:
       host: consul
       port: 8500
       discovery:
+        hostName: api-gateway
+        instanceId: ${spring.application.name}:${random.value}
         healthCheckInterval: 60s
   mvc:
     log-request-details: true
+
+info.component: api-gateway
+
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false
