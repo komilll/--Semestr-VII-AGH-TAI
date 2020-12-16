@@ -9,6 +9,8 @@ services:
       - "8080:8080"
     expose:
       - "8080"
+    depends_on:
+      - consul
     networks:
       - backend
 
@@ -22,6 +24,7 @@ services:
       - "5555"
     depends_on:
       - api-gateway
+      - consul
     networks:
       - backend
 
@@ -35,6 +38,7 @@ services:
       - "6666"
     depends_on:
       - api-gateway
+      - consul
     networks:
       - backend
 
@@ -49,6 +53,7 @@ services:
     depends_on:
       - api-gateway
       - service-history-db
+      - consul
     links:
       - service-history-db
     networks:
@@ -67,7 +72,43 @@ services:
       - "8888:8888"
     expose:
       - "8888"
-    command: mongod
+    command: mongod --port 8888
+    networks:
+      - backend
+
+  consul:
+    image: consul:1.7.3
+    container_name: "consul"
+    hostname: "consul"
+    command: consul agent -server -client 0.0.0.0 -ui -bootstrap-expect=3 -data-dir=/consul/data -retry-join=consul2 -retry-join=consul3 -datacenter=blr
+    ports:
+      - "8500:8500"
+      - "8600:8600"
+    networks:
+      - backend
+  consul2:
+    image: consul:1.7.3
+    container_name: "consul-2"
+    hostname: "consul2"
+    expose:
+      - "8500"
+      - "8600"
+    command: consul agent -server -data-dir=/consul/data -retry-join=consul -retry-join=consul3 -datacenter=blr
+    links:
+      - consul
+    networks:
+      - backend
+  consul3:
+    image: consul:1.7.3
+    container_name: "consul-3"
+    hostname: "consul3"
+    expose:
+      - "8500"
+      - "8600"
+    command: consul agent -server -data-dir=/consul/data -retry-join=consul -retry-join=consul2 -datacenter=blr
+    links:
+      - consul
+      - consul2
     networks:
       - backend
 

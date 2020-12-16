@@ -9,6 +9,12 @@ logging:
 spring:
   application:
     name: service-history
+  cloud:
+    consul:
+      host: consul
+      port: 8500
+      discovery:
+        healthCheckInterval: 60s
   data:
     mongodb:
       uri: mongodb://service-history-db:8888/service-history
