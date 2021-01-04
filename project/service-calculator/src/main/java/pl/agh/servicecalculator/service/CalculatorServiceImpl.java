@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import pl.agh.servicecalculator.model.CalorieHistory;
 import pl.agh.servicecalculator.model.Meal;
 import pl.agh.servicecalculator.model.MealCalculated;
 import pl.agh.servicecalculator.model.MealCaloricity;
@@ -25,28 +26,36 @@ public class CalculatorServiceImpl implements CalculatorService {
     @Override
     @Nullable
     public MealCalculated calculateMeal(Meal meal) {
-        MealCalculated mealCalculated = null;
-        ResponseEntity<MealCaloricity> responseEntity = handleRequest(meal);
+        ResponseEntity<MealCaloricity> getMealCaloricityResponse = getMealCaloricity(meal);
+        if (!getMealCaloricityResponse.getStatusCode().is2xxSuccessful()) {
+            log.error("GetMealCaloricity failed for meal: " + meal + ", error: " + getMealCaloricityResponse.getStatusCodeValue());
+            return null;
+        }
 
-        if (responseEntity.getStatusCode().is2xxSuccessful()) {
-            mealCalculated = handleSuccess(meal, responseEntity.getBody());
-        } else {
-            log.error("Add new meal failed for meal: " + meal + ", error: " + responseEntity.getStatusCodeValue());
+        MealCalculated mealCalculated = calculateMeal(meal, getMealCaloricityResponse.getBody());
+        ResponseEntity<CalorieHistory> putMealResponse = putMealToHistory(mealCalculated);
+        if (!putMealResponse.getStatusCode().is2xxSuccessful()) {
+            log.error("Put meal to history failed for meal: " + meal + ", error: " + putMealResponse.getStatusCodeValue());
+            return null;
         }
 
         return mealCalculated;
     }
 
-    private static MealCalculated handleSuccess(Meal meal, MealCaloricity mealCaloricity) {
+    private ResponseEntity<MealCaloricity> getMealCaloricity(Meal meal) {
+        String url = "http://service-database:6666/getMealCaloricity/" + meal.getId();
+        return restTemplate.getForEntity(url, MealCaloricity.class);
+    }
+
+    private static MealCalculated calculateMeal(Meal meal, MealCaloricity mealCaloricity) {
         Double kcal = mealCaloricity.getCaloricity() * meal.getGrams();
         MealCalculated mealCalculated = new MealCalculated(meal.getId(), meal.getGrams(), kcal);
         log.info("Meal has been calculated: " + mealCalculated);
         return mealCalculated;
     }
 
-    private ResponseEntity<MealCaloricity> handleRequest(Meal meal) {
-        String url = "http://service-database:6666/getMealCaloricity/" + meal.getId();
-        return restTemplate.getForEntity(url, MealCaloricity.class);
+    private ResponseEntity<CalorieHistory> putMealToHistory(MealCalculated mealCalculated) {
+        String url = "http://service-history:7777/putMeal/";
+        return restTemplate.postForEntity(url, mealCalculated, CalorieHistory.class);
     }
-
 }
