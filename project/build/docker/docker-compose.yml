@@ -30,6 +30,9 @@ services:
       - api-gateway
       - consul
       - logstash
+      - kibana
+      - consul2
+      - consul3
     networks:
       - backend
 
@@ -44,6 +47,10 @@ services:
     depends_on:
       - api-gateway
       - consul
+      - logstash
+      - kibana
+      - consul2
+      - consul3
     networks:
       - backend
 
@@ -60,6 +67,9 @@ services:
       - service-history-db
       - consul
       - logstash
+      - kibana
+      - consul2
+      - consul3
     links:
       - service-history-db
     networks:
