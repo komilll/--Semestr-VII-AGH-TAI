@@ -12,6 +12,9 @@ services:
     depends_on:
       - consul
       - logstash
+      - kibana
+      - consul2
+      - consul3
     networks:
       - backend
 
@@ -142,7 +145,7 @@ services:
 
   logstash:
     image: logstash:7.7.0
-    container_name: log-stash
+    container_name: logstash
     hostname: logstash
     ports:
       - "5000:5000"
