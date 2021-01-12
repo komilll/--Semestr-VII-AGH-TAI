@@ -19,13 +19,13 @@ public class HistoryController {
     @Autowired
     private HistoryServiceImpl historyService;
 
-    @PostMapping
+    @PostMapping("putMeal")
     public CalorieHistory saveMeal(@RequestBody MealCalculated meal) {
         log.debug(getClass() + " caught POST request with body:\n" + meal);
         return historyService.saveMeal(meal);
     }
 
-    @GetMapping
+    @GetMapping("getMealsHistory")
     public List<CalorieHistory> getHistory() {
         log.debug(getClass() + " caught GET request");
         return historyService.getHistory();
