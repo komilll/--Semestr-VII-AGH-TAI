@@ -4,12 +4,28 @@ zuul:
     service-calculator:
       path: /service-calculator/**
       serviceId: service-calculator
+      sensitiveHeaders:
     service-database:
       path: /service-database/**
       serviceId: service-database
+      sensitiveHeaders:
     service-history:
       path: /service-history/**
       serviceId: service-history
+      sensitiveHeaders:
+    itself:
+      path: /zuul/**
+      url: /
+      sensitiveHeaders:
+
+jwt:
+  header: Authorization
+  secret: tai-secret
+  expiration: 604800
+  route:
+    authentication:
+      path: authenticate
+      refresh: refresh
 
 server:
   contextPath: /

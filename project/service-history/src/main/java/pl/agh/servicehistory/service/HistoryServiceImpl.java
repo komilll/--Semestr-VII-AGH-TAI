@@ -20,7 +20,7 @@ public class HistoryServiceImpl {
         log.info("Trying to save mealCalculated: " + mealCalculated);
         CalorieHistory calorieHistory = new CalorieHistory(mealCalculated);
         log.info("Saved calorieHistory: " + calorieHistory);
-        return mealRepository.save(calorieHistory);
+        return mealRepository.insert(calorieHistory);
     }
 
     public List<CalorieHistory> getHistory() {
