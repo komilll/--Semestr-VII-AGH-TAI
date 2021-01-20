@@ -5,6 +5,6 @@ import pl.agh.servicecalculator.model.MealCalculated;
 
 public interface CalculatorService {
 
-    MealCalculated calculateMeal(Meal meal);
+    MealCalculated calculateMeal(Meal meal, String authorization);
 
 }
