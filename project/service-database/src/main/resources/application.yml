@@ -15,5 +15,6 @@ spring:
       port: 8500
       discovery:
         healthCheckInterval: 60s
+        instanceId: ${spring.application.name}:${random.value}
   mvc:
     log-request-details: true

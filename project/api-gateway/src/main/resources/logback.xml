@@ -13,6 +13,7 @@
     <springProperty scope="context" name="LOGSTASH" source="logstash.servers"/>
     <springProperty scope="context" name="APP_NAME" source="info.artifact"/>
     <springProperty scope="context" name="APP_VERSION" source="info.version"/>
+    <springProperty scope="context" name="INSTANCE_ID" source="spring.cloud.consul.discovery.instanceId"/>
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
@@ -32,7 +33,7 @@
         <destination>logstash:5000</destination>
         <!-- encoder is required -->
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <customFields>{"appname":"api-gateway","version":"1.0"}</customFields>
+            <customFields>{"instance_id":"${INSTANCE_ID}"}</customFields>
         </encoder>
     </appender>
 

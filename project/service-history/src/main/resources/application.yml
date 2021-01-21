@@ -15,6 +15,7 @@ spring:
       port: 8500
       discovery:
         healthCheckInterval: 60s
+        instanceId: ${spring.application.name}:${random.value}
   data:
     mongodb:
       uri: mongodb://service-history-db:8888/service-history
