@@ -2,6 +2,7 @@ package pl.agh.servicecalculator.service;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import net.logstash.logback.argument.StructuredArguments;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -14,6 +15,9 @@ import pl.agh.servicecalculator.model.CalorieHistory;
 import pl.agh.servicecalculator.model.Meal;
 import pl.agh.servicecalculator.model.MealCalculated;
 import pl.agh.servicecalculator.model.MealCaloricity;
+
+import java.time.Duration;
+import java.time.Instant;
 
 @Service
 @Slf4j
@@ -29,6 +33,9 @@ public class CalculatorServiceImpl implements CalculatorService {
     @Override
     @Nullable
     public MealCalculated calculateMeal(Meal meal, String authorization) {
+
+        Instant startTime = Instant.now();
+
         ResponseEntity<MealCaloricity> caloricityResponse = getMealCaloricity(meal, authorization);
         if (!caloricityResponse.getStatusCode().is2xxSuccessful()) {
             log.error("GetMealCaloricity failed for meal: " + meal + ", error: " + caloricityResponse.getStatusCodeValue());
@@ -41,6 +48,11 @@ public class CalculatorServiceImpl implements CalculatorService {
             log.error("Put meal to history failed for meal: " + meal + ", error: " + putMealResponse.getStatusCodeValue());
             return null;
         }
+
+        Instant endTime = Instant.now();
+        long timeElapsed = Duration.between(startTime, endTime).toMillis();
+
+        log.info("@execution_time={}", StructuredArguments.value("execution_time", timeElapsed));
 
         return mealCalculated;
     }
