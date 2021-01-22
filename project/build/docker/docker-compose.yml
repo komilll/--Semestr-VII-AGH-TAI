@@ -5,6 +5,7 @@ services:
     container_name: "api-gateway"
     hostname: "api-gateway"
     build: ../../api-gateway/target
+    image: api-gateway-img
     ports:
       - "8080:8080"
     expose:
@@ -22,6 +23,7 @@ services:
     container_name: "service-calculator"
     hostname: "service-calculator"
     build: ../../service-calculator/target
+    image: service-calculator-img
     ports:
       - "5555:5555"
     expose:
@@ -40,6 +42,7 @@ services:
     container_name: "service-database"
     hostname: "service-database"
     build: ../../service-database/target
+    image: service-database-img
     ports:
       - "6666:6666"
     expose:
@@ -58,6 +61,7 @@ services:
     container_name: "service-history"
     hostname: "service-history"
     build: ../../service-history/target
+    image: service-history-img
     ports:
       - "7777:7777"
     expose:
