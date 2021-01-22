@@ -2,7 +2,6 @@ version: '3.8'
 
 services:
   api-gateway:
-    container_name: "api-gateway"
     hostname: "api-gateway"
     build: ../../api-gateway/target
     image: api-gateway-img
@@ -20,7 +19,6 @@ services:
       - overnet
 
   service-calculator:
-    container_name: "service-calculator"
     hostname: "service-calculator"
     build: ../../service-calculator/target
     image: service-calculator-img
@@ -39,7 +37,6 @@ services:
       - overnet
 
   service-database:
-    container_name: "service-database"
     hostname: "service-database"
     build: ../../service-database/target
     image: service-database-img
@@ -58,7 +55,6 @@ services:
       - overnet
 
   service-history:
-    container_name: "service-history"
     hostname: "service-history"
     build: ../../service-history/target
     image: service-history-img
@@ -80,7 +76,6 @@ services:
       - overnet
 
   service-history-db:
-    container_name: "service-history-db"
     hostname: "service-history-db"
     image: "mongo:3.7"
     environment:
@@ -98,7 +93,6 @@ services:
 
   consul:
     image: consul:1.7.3
-    container_name: "consul"
     hostname: "consul"
     command: consul agent -server -client 0.0.0.0 -ui -bootstrap-expect=3 -data-dir=/consul/data -retry-join=consul2 -retry-join=consul3 -datacenter=blr
     ports:
@@ -108,7 +102,6 @@ services:
       - overnet
   consul2:
     image: consul:1.7.3
-    container_name: "consul-2"
     hostname: "consul2"
     expose:
       - "8500"
@@ -120,7 +113,6 @@ services:
       - overnet
   consul3:
     image: consul:1.7.3
-    container_name: "consul-3"
     hostname: "consul3"
     expose:
       - "8500"
@@ -135,7 +127,6 @@ services:
   # ELK STACK
   elasticsearch:
     image: elasticsearch:7.7.0
-    container_name: elasticsearch
     hostname: elasticsearch
     environment:
       - "cluster.name=elasticsearch"
@@ -159,7 +150,6 @@ services:
 
   logstash:
     image: logstash:7.7.0
-    container_name: logstash
     hostname: logstash
     ports:
       - "5000:5000"
@@ -176,7 +166,6 @@ services:
 
   kibana:
     image: kibana:7.7.0
-    container_name: kibana
     hostname: kibana
     ports:
       - "5601:5601"
