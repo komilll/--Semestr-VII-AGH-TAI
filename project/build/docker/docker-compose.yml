@@ -7,8 +7,6 @@ services:
     image: api-gateway-img
     ports:
       - "8080:8080"
-    expose:
-      - "8080"
     depends_on:
       - consul
       - logstash
@@ -24,8 +22,6 @@ services:
     image: service-calculator-img
     ports:
       - "5555:5555"
-    expose:
-      - "5555"
     depends_on:
       - api-gateway
       - consul
@@ -42,8 +38,6 @@ services:
     image: service-database-img
     ports:
       - "6666:6666"
-    expose:
-      - "6666"
     depends_on:
       - api-gateway
       - consul
@@ -60,8 +54,6 @@ services:
     image: service-history-img
     ports:
       - "7777:7777"
-    expose:
-      - "7777"
     depends_on:
       - api-gateway
       - service-history-db
@@ -85,8 +77,6 @@ services:
       - mongodata:/data/db
     ports:
       - "8888:8888"
-    expose:
-      - "8888"
     command: mongod --port 8888
     networks:
       - overnet
@@ -94,7 +84,7 @@ services:
   consul:
     image: consul:1.7.3
     hostname: "consul"
-    command: consul agent -server -client 0.0.0.0 -ui -bootstrap-expect=3 -data-dir=/consul/data -retry-join=consul2 -retry-join=consul3 -datacenter=blr
+    command: consul agent -bind '{{ GetInterfaceIP "eth0" }}' -server -client 0.0.0.0 -ui -bootstrap-expect=3 -data-dir=/consul/data -retry-join=consul2 -retry-join=consul3 -datacenter=blr
     ports:
       - "8500:8500"
       - "8600:8600"
@@ -103,10 +93,7 @@ services:
   consul2:
     image: consul:1.7.3
     hostname: "consul2"
-    expose:
-      - "8500"
-      - "8600"
-    command: consul agent -server -data-dir=/consul/data -retry-join=consul -retry-join=consul3 -datacenter=blr
+    command: consul agent -bind '{{ GetInterfaceIP "eth0" }}' -server -data-dir=/consul/data -retry-join=consul -retry-join=consul3 -datacenter=blr
     links:
       - consul
     networks:
@@ -114,10 +101,7 @@ services:
   consul3:
     image: consul:1.7.3
     hostname: "consul3"
-    expose:
-      - "8500"
-      - "8600"
-    command: consul agent -server -data-dir=/consul/data -retry-join=consul -retry-join=consul2 -datacenter=blr
+    command: consul agent -bind '{{ GetInterfaceIP "eth0" }}' -server -data-dir=/consul/data -retry-join=consul -retry-join=consul2 -datacenter=blr
     links:
       - consul
       - consul2
@@ -143,8 +127,6 @@ services:
     ports:
       - "9200:9200"
       - "9300:9300"
-    expose:
-      - "9200"
     networks:
       - overnet
 
@@ -153,12 +135,10 @@ services:
     hostname: logstash
     ports:
       - "5000:5000"
-    expose:
-      - "5000"
     volumes:
       - /Users/Shared/data/tools/logstash/:/logstash-container/
     command: >
-      logstash --debug -e 'input { tcp { port => 5000 codec => json { charset => "UTF-8" } } } output { elasticsearch { hosts => "elasticsearch:9200" } }'
+      logstash --debug -e 'input { tcp { host => logstash port => 5000 codec => json { charset => "UTF-8" } } } output { elasticsearch { hosts => "elasticsearch:9200" } }'
     depends_on:
       - elasticsearch
     networks:
@@ -169,8 +149,6 @@ services:
     hostname: kibana
     ports:
       - "5601:5601"
-    expose:
-      - "5601"
     environment:
       - ELASTICSEARCH_URL=http://elasticsearch:9200
     links:
