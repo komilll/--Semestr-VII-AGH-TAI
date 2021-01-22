@@ -17,7 +17,7 @@ services:
       - consul2
       - consul3
     networks:
-      - backend
+      - overnet
 
   service-calculator:
     container_name: "service-calculator"
@@ -36,7 +36,7 @@ services:
       - consul2
       - consul3
     networks:
-      - backend
+      - overnet
 
   service-database:
     container_name: "service-database"
@@ -55,7 +55,7 @@ services:
       - consul2
       - consul3
     networks:
-      - backend
+      - overnet
 
   service-history:
     container_name: "service-history"
@@ -77,7 +77,7 @@ services:
     links:
       - service-history-db
     networks:
-      - backend
+      - overnet
 
   service-history-db:
     container_name: "service-history-db"
@@ -94,7 +94,7 @@ services:
       - "8888"
     command: mongod --port 8888
     networks:
-      - backend
+      - overnet
 
   consul:
     image: consul:1.7.3
@@ -105,7 +105,7 @@ services:
       - "8500:8500"
       - "8600:8600"
     networks:
-      - backend
+      - overnet
   consul2:
     image: consul:1.7.3
     container_name: "consul-2"
@@ -117,7 +117,7 @@ services:
     links:
       - consul
     networks:
-      - backend
+      - overnet
   consul3:
     image: consul:1.7.3
     container_name: "consul-3"
@@ -130,7 +130,7 @@ services:
       - consul
       - consul2
     networks:
-      - backend
+      - overnet
 
   # ELK STACK
   elasticsearch:
@@ -155,7 +155,7 @@ services:
     expose:
       - "9200"
     networks:
-      - backend
+      - overnet
 
   logstash:
     image: logstash:7.7.0
@@ -172,7 +172,7 @@ services:
     depends_on:
       - elasticsearch
     networks:
-      - backend
+      - overnet
 
   kibana:
     image: kibana:7.7.0
@@ -187,11 +187,11 @@ services:
     links:
       - elasticsearch
     networks:
-      - backend
+      - overnet
 
 networks:
-  backend:
-    driver: bridge
+  overnet:
+    driver: overlay
 
 volumes:
   mongodata:
