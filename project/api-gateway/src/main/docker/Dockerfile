@@ -5,6 +5,7 @@ EXPOSE 8080
 
 # copy the packaged jar file into our docker image
 ADD api-gateway-0.0.1-SNAPSHOT.jar app.jar
+ADD elastic-apm-agent-1.23.0.jar agent.jar
 
 # set the startup command to execute the jar
-CMD ["java", "-jar", "/app.jar"]
+CMD ["java", "-javaagent:/agent.jar", "-Delastic.apm.service_name=api-gateway*", "-Delastic.apm.server_url=http://apm-server:8200", "-Delastic.apm.application_packa    ges=pl.agh.apigateway", "-jar", "/app.jar"]
