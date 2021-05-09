@@ -214,11 +214,28 @@ services:
       retries: 12
       test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:8200/
 
+  # GRAFANA
+  grafana:
+    image: grafana/grafana:7.1.5
+    container_name: "grafana"
+    build: ../../grafana
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+    depends_on:
+      - kibana
+    networks:
+      - backend
+    volumes:
+      - grafana-data:/var/lib/grafana
+
 networks:
   backend:
     driver: bridge
 
 volumes:
+  grafana-data:
   mongodata:
   logstash-container:
   esdata:
