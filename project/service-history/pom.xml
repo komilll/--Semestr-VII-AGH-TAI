@@ -123,6 +123,9 @@
                                     <directory>src/main/docker</directory>
                                     <filtering>true</filtering>
                                 </resource>
+                                <resource>
+                                    <directory>lib</directory>
+                                </resource>
                             </resources>
                         </configuration>
                     </execution>
