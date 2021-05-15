@@ -11,10 +11,15 @@ public class SampleController {
     @GetMapping("/hello")
     public String hello() {
         int randomInt = ThreadLocalRandom.current().nextInt(1, 100);
-        if ((randomInt % 2) == 0) {
-            return "Hello World";
+
+        if ((randomInt % 5) == 0) {
+            throw new IllegalArgumentException("Illegal argument: " + randomInt);
+        } else if ((randomInt % 3) == 0) {
+            throw new IllegalStateException("Illegal state: " + randomInt);
+        } else if ((randomInt % 2) == 0) {
+            throw new ArithmeticException("Wrong number: " + randomInt);
         } else {
-            throw new RuntimeException("Random exception: " + randomInt);
+            return "Hello World";
         }
     }
 
